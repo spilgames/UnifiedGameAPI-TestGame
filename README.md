@@ -13,4 +13,4 @@ Feel free to use!
 
     npm start
 
-Then point tyour web browser to: http://127.0.0.1:1337/
+Then point your web browser to: http://127.0.0.1:1337/
