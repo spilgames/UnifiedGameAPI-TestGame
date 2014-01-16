@@ -1,0 +1,22 @@
+{
+  "name": "FakeGame",
+  "version": "0.0.1",
+  "homepage": "https://github.com/SPIL-stephanep/FakeGame",
+  "authors": [
+    "Stephane P. Pericat <stephane.pericat@spilgames.com>"
+  ],
+  "description": "fake game",
+  "main": "app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "kinetic": "http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v5.0.0.min.js"
+  }
+}
