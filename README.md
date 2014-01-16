@@ -5,7 +5,7 @@ Feel free to use!
 
 ##Installation##
 
-    git@github.com:SPIL-stephanep/FakeGame.git
+    git clone git@github.com:SPIL-stephanep/FakeGame.git
     cd FakeGame/
     npm install && bower install
 
