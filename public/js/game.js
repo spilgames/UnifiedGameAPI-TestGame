@@ -115,7 +115,7 @@ button.on('click', function() {
                 clearInterval(getRandomResult);
 
                 var message = '';
-                if(result === bet) {
+                if(result === parseInt(bet)) {
                     message = 'You won!';
                     cash += betAmount;
                 } else {
