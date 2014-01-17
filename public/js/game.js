@@ -1,3 +1,6 @@
+var cash = 2500,
+    betAmount = 50;
+
 var stage = new Kinetic.Stage({
     container: 'game-container',
     width: 640,
@@ -35,7 +38,7 @@ var buttonLabel = new Kinetic.Text({
 var betLabel = new Kinetic.Text({
     fontSize: 16,
     fontFamily: 'Calibri',
-    fill: 'black',
+    fill: 'white',
     y: 70,
     width: 640
 });
@@ -43,7 +46,7 @@ var betLabel = new Kinetic.Text({
 var rouletteLabel = new Kinetic.Text({
     fontSize: 50,
     fontFamily: 'Calibri',
-    fill: 'black',
+    fill: 'white',
     y: 150,
     width: 640
 });
@@ -51,15 +54,26 @@ var rouletteLabel = new Kinetic.Text({
 var resultLabel = new Kinetic.Text({
     fontSize: 100,
     fontFamily: 'Calibri',
-    fill: 'black',
+    fill: 'white',
     y: 300,
     width: 640
+});
+
+var cashLabel = new Kinetic.Text({
+    text: 'Your cash: $' + cash,
+    fontSize: 20,
+    fontFamily: 'Calibri',
+    fill: 'white',
+    width: 600,
+    y: 30,
+    x: 20
 });
 
 buttonLabel.align('center');
 betLabel.align('center');
 rouletteLabel.align('center');
 resultLabel.align('center');
+cashLabel.align('right');
 
 button.on('mouseover', function() {
     document.body.style.cursor = 'pointer';
@@ -70,6 +84,11 @@ button.on('mouseout', function() {
 });
 
 button.on('click', function() {
+    if(cash === 0) {
+        window.alert('You cannot bet, you have no more cash!');
+        return false;
+    }
+
     betLabel.setText('');
     rouletteLabel.setText('');
     resultLabel.setText('');
@@ -94,15 +113,20 @@ button.on('click', function() {
                 layer.draw();
             } else {
                 clearInterval(getRandomResult);
+
                 var message = '';
                 if(result === bet) {
                     message = 'You won!';
+                    cash += betAmount;
                 } else {
                     message = 'You lost :(';
+                    cash -= betAmount;
                 }
 
                 resultLabel.setText(message);
                 resultLabel.align('center');
+                cashLabel.setText('Your cash: $' + cash);
+                cashLabel.align('right');
                 layer.draw();
             }
         }, 100);
@@ -115,6 +139,7 @@ button.add(rect);
 button.add(buttonLabel);
 
 // add the shape to the layer
+layer.add(cashLabel);
 layer.add(button);
 layer.add(betLabel);
 layer.add(rouletteLabel);
