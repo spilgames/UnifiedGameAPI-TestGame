@@ -106,7 +106,7 @@ button.on('click', function() {
 
         var getRandomResult = setInterval(function() {
             if(count < 20) {
-                result = Math.round(Math.random() * 100);
+                result = Math.round(Math.random() * 36);
                 count++;
                 rouletteLabel.setText(result);
                 rouletteLabel.align('center');
