@@ -94,7 +94,7 @@ button.on('click', function() {
     resultLabel.setText('');
     layer.draw();
 
-    var bet = window.prompt('Enter the number you want to bet on (between 0 and 100):');
+    var bet = window.prompt('Enter the number you want to bet on (between 0 and 36):');
 
     if(bet) {
         betLabel.setText('You are betting on: ' + bet);
