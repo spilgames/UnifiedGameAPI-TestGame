@@ -14,3 +14,7 @@ Feel free to use!
     npm start
 
 Then point your web browser to: http://127.0.0.1:1337/
+
+###License###
+
+&copy; 2014 SpilGames

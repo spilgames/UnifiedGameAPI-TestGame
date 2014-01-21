@@ -1,5 +1,6 @@
-(function(K) {
-    var game,
+(function(K, A) {
+    var API,
+        game,
         layer,
         btn,
         betLabel,
@@ -93,7 +94,8 @@
         }).align('right');
     }
 
-    function initGame(containerId, width, height) {
+    function initGame(containerId, width, height, SpilAPI) {
+        API           = SpilAPI;
         game          = _createStage(containerId, width, height);
         layer         = _createLayer();
         btn           = _createBetButton();
@@ -101,6 +103,8 @@
         rouletteLabel = _createRouletteLabel();
         resultLabel   = _createResultLabel();
         cashLabel     = _createCashLabel();
+
+        console.log(API);
 
         btn.on('mouseover', function() {
             document.body.style.cursor = 'pointer';
@@ -176,6 +180,8 @@
         game.add(layer);
     }
 
-    initGame('game-container', 640, 480);
+    A.loadAPI(function(api) {
+        initGame('game-container', 640, 480, api);
+    });
 
-})(Kinetic);
+})(Kinetic, GameAPI);

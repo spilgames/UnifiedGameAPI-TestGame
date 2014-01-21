@@ -7,7 +7,7 @@
   ],
   "description": "fake game",
   "main": "app.js",
-  "license": "MIT",
+  "license": "Copyright 2014 SpilGames",
   "private": true,
   "ignore": [
     "**/.*",
