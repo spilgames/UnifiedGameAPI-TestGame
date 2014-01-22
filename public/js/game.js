@@ -203,7 +203,10 @@
     // Load the API
     A.loadAPI(function(api) {
         // init the game
+        console.log('API loaded in the game', api);
         initGame('game-container', 640, 480, api);
     });
+
+    
 
 })(Kinetic, GameAPI);
