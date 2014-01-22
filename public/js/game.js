@@ -1,4 +1,5 @@
 (function(K, A) {
+
     var API,
         game,
         layer,
@@ -8,8 +9,17 @@
         resultLabel,
         cashLabel,
         cash = 2500,
-        betAmount = 50;
+        betAmount = 50,
+        playCount = 0;
 
+    /* API related methods */
+    function _triggerMidroll(callbacks) {
+        if(playCount % 2 === 0) {
+            API.GameBreak.request(callbacks.pause, callbacks.resume);
+        }
+    }
+
+    /* Game related methods */
     function _createStage(containerId, width, height) {
         return new K.Stage({
             container: containerId,
@@ -104,8 +114,6 @@
         resultLabel   = _createResultLabel();
         cashLabel     = _createCashLabel();
 
-        console.log(API);
-
         btn.on('mouseover', function() {
             document.body.style.cursor = 'pointer';
         });
@@ -164,6 +172,18 @@
                         cashLabel.setText('Your cash: $' + cash);
                         cashLabel.align('right');
                         layer.draw();
+
+                        // update the play count
+                        playCount++;
+                        // This is how you can trigger midrolls every other play
+                        _triggerMidroll({
+                            pause: function() {
+                                console.log('Midroll requested');
+                            },
+                            resume: function() {
+                                console.log('Midroll finished');
+                            }
+                        });
                     }
                 }, 100);
             }
@@ -180,7 +200,9 @@
         game.add(layer);
     }
 
+    // Load the API
     A.loadAPI(function(api) {
+        // init the game
         initGame('game-container', 640, 480, api);
     });
 
