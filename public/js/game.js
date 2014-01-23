@@ -2,6 +2,7 @@
 
     var API,
         game,
+        SpilLogo,
         layer,
         btn,
         betLabel,
@@ -19,6 +20,10 @@
         }
     }
 
+    function _getBranding() {
+        return API.Branding.getLogo();
+    }
+
     /* Game related methods */
     function _createStage(containerId, width, height) {
         return new K.Stage({
@@ -30,6 +35,25 @@
 
     function _createLayer() {
         return new K.Layer();
+    }
+
+    function _createLogo(callback) {
+        var imageObj = new Image(),
+            logoData = _getBranding();
+
+        imageObj.src = logoData.image;
+
+        imageObj.onload = function() {
+            var logo = new Kinetic.Image({
+                x: logoData.posX,
+                y: logoData.posY,
+                image: imageObj,
+                width: imageObj.width,
+                height: imageObj.height
+            });
+
+            callback.call(this, logo, logoData.link);
+        };
     }
 
     function _createBetButton() {
@@ -196,8 +220,27 @@
         layer.add(rouletteLabel);
         layer.add(resultLabel);
 
-        // add the layer to the game
-        game.add(layer);
+        // Create the branding
+        _createLogo(function(logo, link) {
+            // setup events listeners for the logo
+            logo.on('mouseover', function() {
+                document.body.style.cursor = 'pointer';
+            });
+
+            logo.on('mouseout', function() {
+                document.body.style.cursor = 'default';
+            });
+
+            logo.on('click', function() {
+                var win = window.open(link, '_blank');
+                win.focus();
+            });
+
+            // Add the branding to the layer
+            layer.add(logo);
+            // Finally, inject the layer in the game
+            game.add(layer);
+        });
     }
 
     // Load the API

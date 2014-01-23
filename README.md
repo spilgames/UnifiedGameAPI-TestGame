@@ -1,4 +1,4 @@
-#Fake Roulette Game v0.0.7#
+#Fake Roulette Game v0.0.8#
 
 An awesome fake roulette game built with canvas to test the GameAPI integration.
 Feel free to use!

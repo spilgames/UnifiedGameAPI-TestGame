@@ -1,6 +1,6 @@
 {
   "name": "FakeGame",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "fake game",
   "main": "app.js",
   "scripts": {
