@@ -8,3 +8,4 @@ app.get('*', function(req, res) {
 });
 
 app.listen(process.env.VMC_APP_PORT || 1337, null);
+console.log('Fake game started on port 1337');
