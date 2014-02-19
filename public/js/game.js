@@ -24,6 +24,10 @@
         return API.Branding.getLogo();
     }
 
+    function _getLink(type) {
+        return API.Branding.getLink(type);
+    }
+
     /* Game related methods */
     function _createStage(containerId, width, height) {
         return new K.Stage({
@@ -45,11 +49,11 @@
 
         imageObj.onload = function() {
             var logo = new Kinetic.Image({
-                x: logoData.posX,
-                y: logoData.posY,
+                x: 0,
+                y: 10,
                 image: imageObj,
-                width: imageObj.width,
-                height: imageObj.height
+                width: logoData.width,
+                height: logoData.height
             });
 
             callback.call(this, logo, logoData.link);
@@ -241,6 +245,8 @@
             // Finally, inject the layer in the game
             game.add(layer);
         });
+
+        _getLink('more_games');
     }
 
     // Load the API
