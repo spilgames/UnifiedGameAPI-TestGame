@@ -33,6 +33,10 @@
         return API.Branding.getLink(type);
     }
 
+    function _doClick(linkName) {
+        return API.Branding.doClick(linkName);
+    }
+
     /* Game related methods */
     function _createStage(containerId, width, height) {
         return new K.Stage({
@@ -259,23 +263,42 @@
         layer.add(rouletteLabel);
         layer.add(resultLabel);
         
-        //Use Branding.getLink() method to retrieve and construct the more games button
-        var moreBtnAction = _getLink('more_games');
+        /**
+         * Examples on how to generate a 'more games' button
+         */
+         
+        // 1) The customizable way: branding.getLink()
+        
+        // var moreBtnAction = _getLink('more_games');
 
-        if(!moreBtnAction.error && moreBtnAction.action) { // will return an error msg if the button is not available
-            moreBtn = _createMoreButton();
-            moreBtn.on('mouseover', function() {
-                document.body.style.cursor = 'pointer';
-            });
+        // if(!moreBtnAction.error && moreBtnAction.action) { // will return an error msg if the button is not available
+        //     moreBtn = _createMoreButton();
+        //     moreBtn.on('mouseover', function() {
+        //         document.body.style.cursor = 'pointer';
+        //     });
 
-            moreBtn.on('mouseout', function() {
-                document.body.style.cursor = 'default';
-            });
+        //     moreBtn.on('mouseout', function() {
+        //         document.body.style.cursor = 'default';
+        //     });
 
-            moreBtn.on('click', moreBtnAction.action);
+        //     moreBtn.on('click', moreBtnAction.action);
 
-            layer.add(moreBtn);
-        }
+        //     layer.add(moreBtn);
+        // }
+
+        // 2) the easy way: branding.doClick()
+        moreBtn = _createMoreButton();
+        moreBtn.on('mouseover', function() {
+            document.body.style.cursor = 'pointer';
+        });
+
+        moreBtn.on('mouseout', function() {
+            document.body.style.cursor = 'default';
+        });
+
+        moreBtn.on('click', _doClick('more_games'));
+
+        layer.add(moreBtn);
 
         // Create the branding
         _createLogo(function(logo, link) {
@@ -300,6 +323,7 @@
         });
 
         console.log("available Branding.getLink options for this game: ", _listLinks());
+        _doClick('more_games');
     }
 
     // Load the API
