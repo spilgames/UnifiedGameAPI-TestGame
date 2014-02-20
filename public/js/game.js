@@ -262,7 +262,7 @@
         //Use Branding.getLink() method to retrieve and construct the more games button
         var moreBtnAction = _getLink('more_games');
 
-        if(!moreBtnAction.error) { // will return an error msg if the button is not available
+        if(!moreBtnAction.error && moreBtnAction.action) { // will return an error msg if the button is not available
             moreBtn = _createMoreButton();
             moreBtn.on('mouseover', function() {
                 document.body.style.cursor = 'pointer';
@@ -272,7 +272,7 @@
                 document.body.style.cursor = 'default';
             });
 
-            moreBtn.on('click', moreBtnAction.handler);
+            moreBtn.on('click', moreBtnAction.action);
 
             layer.add(moreBtn);
         }
