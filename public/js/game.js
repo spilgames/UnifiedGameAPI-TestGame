@@ -321,9 +321,6 @@
             // Finally, inject the layer in the game
             game.add(layer);
         });
-
-        console.log("available Branding.getLink options for this game: ", _listLinks());
-        _doClick('more_games');
     }
 
     // Load the API
