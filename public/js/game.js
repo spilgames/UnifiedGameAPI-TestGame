@@ -5,6 +5,7 @@
         SpilLogo,
         layer,
         btn,
+        moreBtn,
         betLabel,
         rouletteLabel,
         resultLabel,
@@ -22,6 +23,18 @@
 
     function _getBranding() {
         return API.Branding.getLogo();
+    }
+
+    function _listLinks() {
+        return API.Branding.listLinks();
+    }
+
+    function _getLink(type) {
+        return API.Branding.getLink(type);
+    }
+
+    function _doClick(linkName) {
+        return API.Branding.doClick(linkName);
     }
 
     /* Game related methods */
@@ -45,15 +58,45 @@
 
         imageObj.onload = function() {
             var logo = new Kinetic.Image({
-                x: logoData.posX,
-                y: logoData.posY,
+                x: 0,
+                y: 10,
                 image: imageObj,
-                width: imageObj.width,
-                height: imageObj.height
+                width: logoData.width,
+                height: logoData.height
             });
 
             callback.call(this, logo, logoData.link);
         };
+    }
+
+    function _createMoreButton() {
+        var button = new K.Group({
+                x: 20,
+                y: 430,
+                width: 100,
+                height: 30
+            }),
+            rect = new K.Rect({
+                width: 100,
+                height: 30,
+                fill: 'green',
+                stroke: 'black',
+                strokeWidth: 1,
+                cornerRadius: 5
+            }),
+            buttonLabel = new K.Text({
+                text: 'More Games',
+                fontSize: 16,
+                fontFamily: 'Calibri',
+                fill: 'white',
+                width: 100,
+                y: 7
+            }).align('center');
+
+        button.add(rect);
+        button.add(buttonLabel);
+
+        return button;
     }
 
     function _createBetButton() {
@@ -219,6 +262,43 @@
         layer.add(betLabel);
         layer.add(rouletteLabel);
         layer.add(resultLabel);
+        
+        /**
+         * Examples on how to generate a 'more games' button
+         */
+         
+        // 1) The customizable way: branding.getLink()
+        
+        // var moreBtnAction = _getLink('more_games');
+
+        // if(!moreBtnAction.error && moreBtnAction.action) { // will return an error msg if the button is not available
+        //     moreBtn = _createMoreButton();
+        //     moreBtn.on('mouseover', function() {
+        //         document.body.style.cursor = 'pointer';
+        //     });
+
+        //     moreBtn.on('mouseout', function() {
+        //         document.body.style.cursor = 'default';
+        //     });
+
+        //     moreBtn.on('click', moreBtnAction.action);
+
+        //     layer.add(moreBtn);
+        // }
+
+        // 2) the easy way: branding.doClick()
+        moreBtn = _createMoreButton();
+        moreBtn.on('mouseover', function() {
+            document.body.style.cursor = 'pointer';
+        });
+
+        moreBtn.on('mouseout', function() {
+            document.body.style.cursor = 'default';
+        });
+
+        moreBtn.on('click', _doClick('more_games'));
+
+        layer.add(moreBtn);
 
         // Create the branding
         _createLogo(function(logo, link) {
