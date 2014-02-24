@@ -65,7 +65,7 @@
                 height: logoData.height
             });
 
-            callback.call(this, logo, logoData.link);
+            callback.call(this, logo, logoData.url);
         };
     }
 
