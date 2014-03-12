@@ -50,7 +50,7 @@
         var imageObj = new Image(),
             logoData = _getBranding();
 
-        imageObj.src = logoData.image;
+        imageObj.src = logoData.image.src;
 
         imageObj.onload = function() {
             var logo = new Kinetic.Image({
