@@ -50,8 +50,6 @@
         var imageObj = new Image(),
             logoData = _getBranding();
 
-        console.log("LGOO DATA", logoData);
-
         imageObj.src = logoData.image.src;
 
         imageObj.onload = function() {
@@ -292,7 +290,7 @@
             logo.on('mouseout', function() {
                 document.body.style.cursor = 'default';
             });
-            
+
             logo.on('click', action);
 
             // Add the branding to the layer
