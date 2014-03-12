@@ -50,6 +50,8 @@
         var imageObj = new Image(),
             logoData = _getBranding();
 
+        console.log("LGOO DATA", logoData);
+
         imageObj.src = logoData.image.src;
 
         imageObj.onload = function() {
@@ -61,7 +63,7 @@
                 height: logoData.height
             });
 
-            callback.call(this, logo, logoData.url);
+            callback.call(this, logo, logoData.action);
         };
     }
 
@@ -281,7 +283,7 @@
         }
 
         // Create the branding
-        _createLogo(function(logo, link) {
+        _createLogo(function(logo, action) {
             // setup events listeners for the logo
             logo.on('mouseover', function() {
                 document.body.style.cursor = 'pointer';
@@ -290,11 +292,8 @@
             logo.on('mouseout', function() {
                 document.body.style.cursor = 'default';
             });
-
-            logo.on('click', function() {
-                var win = window.open(link, '_blank');
-                win.focus();
-            });
+            
+            logo.on('click', action);
 
             // Add the branding to the layer
             layer.add(logo);
