@@ -323,6 +323,7 @@
                 layer.add(logo);
 
                 //finally, show the game
+                document.getElementById(containerId).style.background = "url('/img/background.jpg')";
                 game.add(layer);
             });
         }
