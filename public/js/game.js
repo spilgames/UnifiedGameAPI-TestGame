@@ -33,8 +33,8 @@
         return API.Branding.getLink(type);
     }
 
-    function _showSplashScreen() {
-        return API.Branding.showSplashScreen();
+    function _getSplashScreen() {
+        return API.Branding.getSplashScreen();
     }
 
     /* Game related methods */
@@ -50,7 +50,7 @@
         return new K.Layer();
     }
 
-    function _createSplashScreen(callback) {
+    function _createSplashScreen(splashData, callback) {
         var splashLayer = _createLayer(),
             imageObj = new Image();
 
@@ -64,6 +64,16 @@
                 width: 640,
                 height: 480
             });
+
+            splash.on('mouseover', function() {
+                document.body.style.cursor = 'pointer';
+            });
+
+            splash.on('mouseout', function() {
+                document.body.style.cursor = 'default';
+            });
+
+            splash.on('click', splashData.action);
 
             splashLayer.add(splash);
 
@@ -329,8 +339,9 @@
         }
         
         // check for splash screen
-        if(_showSplashScreen()) {
-            _createSplashScreen(function(splash) {
+        var splashData = _getSplashScreen();
+        if(splashData.show) {
+            _createSplashScreen(splashData, function(splash) {
                 game.add(splash);
                 window.setTimeout(function() {
                     game.clear();
