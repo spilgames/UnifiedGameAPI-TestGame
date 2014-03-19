@@ -50,19 +50,23 @@
         var imageObj = new Image(),
             logoData = _getBranding();
 
-        imageObj.src = logoData.image;
+        if (logoData.image) {
+            imageObj.src = logoData.image;
 
-        imageObj.onload = function() {
-            var logo = new Kinetic.Image({
-                x: 0,
-                y: 10,
-                image: imageObj,
-                width: logoData.width,
-                height: logoData.height
-            });
+            imageObj.onload = function() {
+                var logo = new Kinetic.Image({
+                    x: 0,
+                    y: 10,
+                    image: imageObj,
+                    width: logoData.width,
+                    height: logoData.height
+                });
 
-            callback.call(this, logo, logoData.action);
-        };
+                callback.call(this, logo, logoData.action);
+            };
+        } else {
+            callback.call(this, null, null);
+        }
     }
 
     function _createMoreButton() {
@@ -282,19 +286,22 @@
 
         // Create the branding
         _createLogo(function(logo, action) {
-            // setup events listeners for the logo
-            logo.on('mouseover', function() {
-                document.body.style.cursor = 'pointer';
-            });
+            if (logo && action) {
+                // setup events listeners for the logo
+                logo.on('mouseover', function() {
+                    document.body.style.cursor = 'pointer';
+                });
 
-            logo.on('mouseout', function() {
-                document.body.style.cursor = 'default';
-            });
+                logo.on('mouseout', function() {
+                    document.body.style.cursor = 'default';
+                });
 
-            logo.on('click', action);
+                logo.on('click', action);
 
-            // Add the branding to the layer
-            layer.add(logo);
+                // Add the branding to the layer
+                layer.add(logo);
+            }
+
             // Finally, inject the layer in the game
             game.add(layer);
         });
