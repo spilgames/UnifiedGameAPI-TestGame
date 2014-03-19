@@ -16,7 +16,7 @@
 
     /* API related methods */
     function _triggerMidroll(callbacks) {
-        if(playCount % 2 === 0) {
+        if (playCount % 2 === 0) {
             API.GameBreak.request(callbacks.pause, callbacks.resume);
         }
     }
@@ -71,27 +71,27 @@
 
     function _createMoreButton() {
         var button = new K.Group({
-                x: 20,
-                y: 430,
-                width: 100,
-                height: 30
-            }),
-            rect = new K.Rect({
-                width: 100,
-                height: 30,
-                fill: 'green',
-                stroke: 'black',
-                strokeWidth: 1,
-                cornerRadius: 5
-            }),
-            buttonLabel = new K.Text({
-                text: 'More Games',
-                fontSize: 16,
-                fontFamily: 'Calibri',
-                fill: 'white',
-                width: 100,
-                y: 7
-            }).align('center');
+            x: 20,
+            y: 430,
+            width: 100,
+            height: 30
+        }),
+        rect = new K.Rect({
+            width: 100,
+            height: 30,
+            fill: 'green',
+            stroke: 'black',
+            strokeWidth: 1,
+            cornerRadius: 5
+        }),
+        buttonLabel = new K.Text({
+            text: 'More Games',
+            fontSize: 16,
+            fontFamily: 'Calibri',
+            fill: 'white',
+            width: 100,
+            y: 7
+        }).align('center');
 
         button.add(rect);
         button.add(buttonLabel);
@@ -101,27 +101,27 @@
 
     function _createBetButton() {
         var button = new K.Group({
-                x: 260,
-                y: 30,
-                width: 120,
-                height: 30
-            }),
-            rect = new K.Rect({
-                width: 120,
-                height: 30,
-                fill: 'green',
-                stroke: 'black',
-                strokeWidth: 1,
-                cornerRadius: 5
-            }),
-            buttonLabel = new K.Text({
-                text: 'Enter your bet',
-                fontSize: 16,
-                fontFamily: 'Calibri',
-                fill: 'white',
-                width: 120,
-                y: 7
-            }).align('center');
+            x: 260,
+            y: 30,
+            width: 120,
+            height: 30
+        }),
+        rect = new K.Rect({
+            width: 120,
+            height: 30,
+            fill: 'green',
+            stroke: 'black',
+            strokeWidth: 1,
+            cornerRadius: 5
+        }),
+        buttonLabel = new K.Text({
+            text: 'Enter your bet',
+            fontSize: 16,
+            fontFamily: 'Calibri',
+            fill: 'white',
+            width: 120,
+            y: 7
+        }).align('center');
 
         button.add(rect);
         button.add(buttonLabel);
@@ -172,14 +172,14 @@
     }
 
     function initGame(containerId, width, height, SpilAPI) {
-        API           = SpilAPI;
-        game          = _createStage(containerId, width, height);
-        layer         = _createLayer();
-        btn           = _createBetButton();
-        betLabel      = _createBetLabel();
+        API = SpilAPI;
+        game = _createStage(containerId, width, height);
+        layer = _createLayer();
+        btn = _createBetButton();
+        betLabel = _createBetLabel();
         rouletteLabel = _createRouletteLabel();
-        resultLabel   = _createResultLabel();
-        cashLabel     = _createCashLabel();
+        resultLabel = _createResultLabel();
+        cashLabel = _createCashLabel();
 
         btn.on('mouseover', function() {
             document.body.style.cursor = 'pointer';
@@ -190,7 +190,7 @@
         });
 
         btn.on('click', function() {
-            if(cash === 0) {
+            if (cash === 0) {
                 window.alert('You cannot bet, you have no more cash!');
                 return false;
             }
@@ -202,8 +202,8 @@
 
             var bet = window.prompt('Enter the number you want to bet on (between 0 and 36):');
 
-            if(bet) {
-                if(bet > 36) {
+            if (bet) {
+                if (bet > 36) {
                     window.alert('You can only bet on numbers betwen 0 and 36! You bet on: ' + bet);
                     return false;
                 }
@@ -216,7 +216,7 @@
                     result;
 
                 var getRandomResult = setInterval(function() {
-                    if(count < 20) {
+                    if (count < 20) {
                         result = Math.round(Math.random() * 36);
                         count++;
                         rouletteLabel.setText(result);
@@ -226,7 +226,7 @@
                         clearInterval(getRandomResult);
 
                         var message = '';
-                        if(result === parseInt(bet)) {
+                        if (result === parseInt(bet)) {
                             message = 'You won!';
                             cash += betAmount;
                         } else {
@@ -262,14 +262,14 @@
         layer.add(betLabel);
         layer.add(rouletteLabel);
         layer.add(resultLabel);
-        
+
         /**
          * Example on how to generate a 'more games' button
          */
-        
+
         var moreBtnAction = _getLink('more_games');
 
-        if(!moreBtnAction.error && moreBtnAction.action) { // will return an error msg if the button is not available
+        if (!moreBtnAction.error && moreBtnAction.action) { // will return an error msg if the button is not available
             moreBtn = _createMoreButton();
             moreBtn.on('mouseover', function() {
                 document.body.style.cursor = 'pointer';
@@ -314,6 +314,6 @@
         initGame('game-container', 640, 480, api);
     });
 
-    
+
 
 })(Kinetic, GameAPI);
