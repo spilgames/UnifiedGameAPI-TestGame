@@ -21,7 +21,7 @@
         }
     }
 
-    function _getBranding() {
+    function _getLogo() {
         return API.Branding.getLogo();
     }
 
@@ -31,6 +31,10 @@
 
     function _getLink(type) {
         return API.Branding.getLink(type);
+    }
+
+    function _getSplashScreen() {
+        return API.Branding.getSplashScreen();
     }
 
     /* Game related methods */
@@ -46,9 +50,40 @@
         return new K.Layer();
     }
 
-    function _createLogo(callback) {
+    function _createSplashScreen(splashData, callback) {
+        var splashLayer = _createLayer(),
+            imageObj = new Image();
+
+        imageObj.src = '/img/zibbo.gif';
+
+        imageObj.onload = function() {
+            var splash = new Kinetic.Image({
+                x: 0,
+                y: 0,
+                image: imageObj,
+                width: 640,
+                height: 480
+            });
+
+            splash.on('mouseover', function() {
+                document.body.style.cursor = 'pointer';
+            });
+
+            splash.on('mouseout', function() {
+                document.body.style.cursor = 'default';
+            });
+
+            splash.on('click', splashData.action);
+
+            splashLayer.add(splash);
+
+            callback.call(this, splashLayer);
+        };
+    }
+
+    function _createLogo(data, callback) {
         var imageObj = new Image(),
-            logoData = _getBranding();
+            logoData = data;
 
         imageObj.src = logoData.image;
 
@@ -177,127 +212,161 @@
         resultLabel   = _createResultLabel();
         cashLabel     = _createCashLabel();
 
-        btn.on('mouseover', function() {
-            document.body.style.cursor = 'pointer';
-        });
+        function displayGame() {
+            btn.on('mouseover', function() {
+                document.body.style.cursor = 'pointer';
+            });
 
-        btn.on('mouseout', function() {
-            document.body.style.cursor = 'default';
-        });
+            btn.on('mouseout', function() {
+                document.body.style.cursor = 'default';
+            });
 
-        btn.on('click', function() {
-            if(cash === 0) {
-                window.alert('You cannot bet, you have no more cash!');
-                return false;
-            }
-
-            betLabel.setText('');
-            rouletteLabel.setText('');
-            resultLabel.setText('');
-            layer.draw();
-
-            var bet = window.prompt('Enter the number you want to bet on (between 0 and 36):');
-
-            if(bet) {
-                if(bet > 36) {
-                    window.alert('You can only bet on numbers betwen 0 and 36! You bet on: ' + bet);
+            btn.on('click', function() {
+                if(cash === 0) {
+                    window.alert('You cannot bet, you have no more cash!');
                     return false;
                 }
 
-                betLabel.setText('You are betting on: ' + bet);
-                betLabel.align('center');
+                betLabel.setText('');
+                rouletteLabel.setText('');
+                resultLabel.setText('');
                 layer.draw();
 
-                var count = 0,
-                    result;
+                var bet = window.prompt('Enter the number you want to bet on (between 0 and 36):');
 
-                var getRandomResult = setInterval(function() {
-                    if(count < 20) {
-                        result = Math.round(Math.random() * 36);
-                        count++;
-                        rouletteLabel.setText(result);
-                        rouletteLabel.align('center');
-                        layer.draw();
-                    } else {
-                        clearInterval(getRandomResult);
-
-                        var message = '';
-                        if(result === parseInt(bet)) {
-                            message = 'You won!';
-                            cash += betAmount;
-                        } else {
-                            message = 'You lost :(';
-                            cash -= betAmount;
-                        }
-
-                        resultLabel.setText(message);
-                        resultLabel.align('center');
-                        cashLabel.setText('Your cash: $' + cash);
-                        cashLabel.align('right');
-                        layer.draw();
-
-                        // update the play count
-                        playCount++;
-                        // This is how you can trigger midrolls every other play
-                        _triggerMidroll({
-                            pause: function() {
-                                console.log('Midroll requested');
-                            },
-                            resume: function() {
-                                console.log('Midroll finished');
-                            }
-                        });
+                if(bet) {
+                    if(bet > 36) {
+                        window.alert('You can only bet on numbers betwen 0 and 36! You bet on: ' + bet);
+                        return false;
                     }
-                }, 100);
+
+                    betLabel.setText('You are betting on: ' + bet);
+                    betLabel.align('center');
+                    layer.draw();
+
+                    var count = 0,
+                        result;
+
+                    var getRandomResult = setInterval(function() {
+                        if(count < 20) {
+                            result = Math.round(Math.random() * 36);
+                            count++;
+                            rouletteLabel.setText(result);
+                            rouletteLabel.align('center');
+                            layer.draw();
+                        } else {
+                            clearInterval(getRandomResult);
+
+                            var message = '';
+                            if(result === parseInt(bet)) {
+                                message = 'You won!';
+                                cash += betAmount;
+                            } else {
+                                message = 'You lost :(';
+                                cash -= betAmount;
+                            }
+
+                            resultLabel.setText(message);
+                            resultLabel.align('center');
+                            cashLabel.setText('Your cash: $' + cash);
+                            cashLabel.align('right');
+                            layer.draw();
+
+                            // update the play count
+                            playCount++;
+                            // This is how you can trigger midrolls every other play
+                            _triggerMidroll({
+                                pause: function() {
+                                    console.log('Midroll requested');
+                                },
+                                resume: function() {
+                                    console.log('Midroll finished');
+                                }
+                            });
+                        }
+                    }, 100);
+                }
+            });
+
+            // add the elements to the layer
+            layer.add(cashLabel);
+            layer.add(btn);
+            layer.add(betLabel);
+            layer.add(rouletteLabel);
+            layer.add(resultLabel);
+            
+            /**
+             * Example on how to generate a 'more games' button
+             */
+            
+            var moreBtnAction = _getLink('more_games');
+
+            if(!moreBtnAction.error && moreBtnAction.action) { // will return an error msg if the button is not available
+                moreBtn = _createMoreButton();
+                moreBtn.on('mouseover', function() {
+                    document.body.style.cursor = 'pointer';
+                });
+
+                moreBtn.on('mouseout', function() {
+                    document.body.style.cursor = 'default';
+                });
+
+                moreBtn.on('click', moreBtnAction.action);
+
+                layer.add(moreBtn);
             }
-        });
 
-        // add the elements to the layer
-        layer.add(cashLabel);
-        layer.add(btn);
-        layer.add(betLabel);
-        layer.add(rouletteLabel);
-        layer.add(resultLabel);
-        
-        /**
-         * Example on how to generate a 'more games' button
-         */
-        
-        var moreBtnAction = _getLink('more_games');
+            /**
+             * Example on how to get a logo
+             */
 
-        if(!moreBtnAction.error && moreBtnAction.action) { // will return an error msg if the button is not available
-            moreBtn = _createMoreButton();
-            moreBtn.on('mouseover', function() {
-                document.body.style.cursor = 'pointer';
-            });
+            var getLogoData = _getLogo();
 
-            moreBtn.on('mouseout', function() {
-                document.body.style.cursor = 'default';
-            });
+            if(!getLogoData.error && getLogoData.action && getLogoData.image) {
+                // Create the logo
+                _createLogo(getLogoData, function(logo, action) {
+                    // setup events listeners for the logo
+                    logo.on('mouseover', function() {
+                        document.body.style.cursor = 'pointer';
+                    });
 
-            moreBtn.on('click', moreBtnAction.action);
+                    logo.on('mouseout', function() {
+                        document.body.style.cursor = 'default';
+                    });
 
-            layer.add(moreBtn);
-        }
+                    logo.on('click', action);
 
-        // Create the branding
-        _createLogo(function(logo, action) {
-            // setup events listeners for the logo
-            logo.on('mouseover', function() {
-                document.body.style.cursor = 'pointer';
-            });
+                    // Add the logo to the layer
+                    layer.add(logo);
 
-            logo.on('mouseout', function() {
-                document.body.style.cursor = 'default';
-            });
+                    // Finally, refresh the game UI with the logo included (franework-specific)
+                    game.add(layer);
+                });
+            }
 
-            logo.on('click', action);
-
-            // Add the branding to the layer
-            layer.add(logo);
-            // Finally, inject the layer in the game
+            // show background image
+            document.getElementById(containerId).style.background = "url('/img/background.jpg')";
+            // show the game
             game.add(layer);
-        });
+        }
+        
+        // check for splash screen
+        var splashData = _getSplashScreen();
+
+        // if the spalsh screen is enabled, show the splash screen for two seconds
+        if(splashData.show) {
+            _createSplashScreen(splashData, function(splash) {
+                game.add(splash);
+                window.setTimeout(function() {
+                    game.clear();
+                    displayGame();
+                }, 2000);
+            });
+        } else {
+            // else , display the game directly
+            displayGame();
+        }
+        
     }
 
     // Load the API
