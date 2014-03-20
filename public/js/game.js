@@ -21,7 +21,7 @@
         }
     }
 
-    function _getBranding() {
+    function _getLogo() {
         return API.Branding.getLogo();
     }
 
@@ -81,9 +81,9 @@
         };
     }
 
-    function _createLogo(callback) {
+    function _createLogo(data, callback) {
         var imageObj = new Image(),
-            logoData = _getBranding();
+            logoData = data;
 
         imageObj.src = logoData.image;
 
@@ -316,30 +316,44 @@
                 layer.add(moreBtn);
             }
 
-            // Create the branding
-            _createLogo(function(logo, action) {
-                // setup events listeners for the logo
-                logo.on('mouseover', function() {
-                    document.body.style.cursor = 'pointer';
+            /**
+             * Example on how to get a logo
+             */
+
+            var getLogoData = _getLogo();
+
+            if(!getLogoData.error && getLogoData.action && getLogoData.image) {
+                // Create the logo
+                _createLogo(getLogoData, function(logo, action) {
+                    // setup events listeners for the logo
+                    logo.on('mouseover', function() {
+                        document.body.style.cursor = 'pointer';
+                    });
+
+                    logo.on('mouseout', function() {
+                        document.body.style.cursor = 'default';
+                    });
+
+                    logo.on('click', action);
+
+                    // Add the logo to the layer
+                    layer.add(logo);
+
+                    // Finally, refresh the game UI with the logo included (franework-specific)
+                    game.add(layer);
                 });
+            }
 
-                logo.on('mouseout', function() {
-                    document.body.style.cursor = 'default';
-                });
-
-                logo.on('click', action);
-
-                // Add the branding to the layer
-                layer.add(logo);
-
-                //finally, show the game
-                document.getElementById(containerId).style.background = "url('/img/background.jpg')";
-                game.add(layer);
-            });
+            // show background image
+            document.getElementById(containerId).style.background = "url('/img/background.jpg')";
+            // show the game
+            game.add(layer);
         }
         
         // check for splash screen
         var splashData = _getSplashScreen();
+
+        // if the spalsh screen is enabled, show the splash screen for two seconds
         if(splashData.show) {
             _createSplashScreen(splashData, function(splash) {
                 game.add(splash);
@@ -349,6 +363,7 @@
                 }, 2000);
             });
         } else {
+            // else , display the game directly
             displayGame();
         }
         
