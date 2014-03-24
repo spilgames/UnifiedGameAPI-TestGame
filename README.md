@@ -13,7 +13,9 @@ Feel free to use!
 
     npm start
 
-Then point your web browser to: http://localhost:8282/
+Then point your web browser to: 
+ - [http://localhost:8282/](http://localhost:8282/) for the canvas version
+ - [http://localhost:8282/dom](http://localhost:8282/dom) for the DOM version
 
 ##Build##
 
