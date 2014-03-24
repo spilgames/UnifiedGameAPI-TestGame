@@ -110,8 +110,7 @@ module.exports = function(grunt) {
     grunt.registerTask('postrelease', function () {
         console.log(
             clc.greenBright("Release created successfully!\n\n") +
-            clc.cyan.underline("Please push to GitHub using") + " `grunt push`" + 
-            clc.cyan.underline("You can deploy using") + " `grunt deploy (grunt deploy:myAppName:myAfLogin:myAfPassword)`"
+            clc.cyan.underline("Please push to GitHub using") + " `grunt push`"
         );
     });
 };
