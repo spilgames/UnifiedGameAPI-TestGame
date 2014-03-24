@@ -26,6 +26,7 @@ function _getSplashScreen() {
 }
 
 if(document.getElementById('game-container-canvas')) {
+
     // CANVAS VERSION
     (function(K, A) {
 
@@ -386,7 +387,9 @@ if(document.getElementById('game-container-canvas')) {
         });
 
     })(Kinetic, GameAPI);
+
 } else if(document.getElementById('game-container-dom')) {
+
     // DOM VERSION
     var cash = 2500,
         bet = null,
@@ -400,9 +403,15 @@ if(document.getElementById('game-container-canvas')) {
         if(cash === 0) {
             alert('You are out of cash!');
             return false;
+        } else {
+            bet = window.prompt('Enter the number you want to bet on (between 0 and 36):');
+            if(bet) {
+                if(bet > 36) {
+                    window.alert('You can only bet on numbers betwen 0 and 36! You bet on: ' + bet);
+                    return false;
+                }
+            }
         }
-
-        
     });
 
 } else {
