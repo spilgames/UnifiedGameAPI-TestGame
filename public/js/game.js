@@ -396,7 +396,10 @@ if(document.getElementById('game-container-canvas')) {
         result = null,
         playCount = 0,
         resultField = document.getElementById('result'),
-        betField = document.getElementById('bet-label'),
+        nbrField = document.getElementById('winning-nbr'),
+        betLabel = document.getElementById('bet-label'),
+        betField = document.getElementById('bet-label-span'),
+        cashField = document.getElementById('cash-amount'),
         betBtn = document.getElementById('bet-btn');
 
     betBtn.addEventListener('click', function() {
@@ -410,6 +413,8 @@ if(document.getElementById('game-container-canvas')) {
                     window.alert('You can only bet on numbers betwen 0 and 36! You bet on: ' + bet);
                     return false;
                 }
+
+
             }
         }
     });
