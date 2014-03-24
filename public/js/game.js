@@ -16,7 +16,7 @@
 
     /* API related methods */
     function _triggerMidroll(callbacks) {
-        if(playCount % 2 === 0) {
+        if (playCount % 2 === 0) {
             API.GameBreak.request(callbacks.pause, callbacks.resume);
         }
     }
@@ -85,44 +85,48 @@
         var imageObj = new Image(),
             logoData = data;
 
-        imageObj.src = logoData.image;
+        if (logoData.image) {
+            imageObj.src = logoData.image;
 
-        imageObj.onload = function() {
-            var logo = new Kinetic.Image({
-                x: 0,
-                y: 10,
-                image: imageObj,
-                width: logoData.width,
-                height: logoData.height
-            });
+            imageObj.onload = function() {
+                var logo = new Kinetic.Image({
+                    x: 0,
+                    y: 10,
+                    image: imageObj,
+                    width: logoData.width,
+                    height: logoData.height
+                });
 
-            callback.call(this, logo, logoData.action);
-        };
+                callback.call(this, logo, logoData.action);
+            };
+        } else {
+            callback.call(this, null, null);
+        }
     }
 
     function _createMoreButton() {
         var button = new K.Group({
-                x: 20,
-                y: 430,
-                width: 100,
-                height: 30
-            }),
-            rect = new K.Rect({
-                width: 100,
-                height: 30,
-                fill: 'green',
-                stroke: 'black',
-                strokeWidth: 1,
-                cornerRadius: 5
-            }),
-            buttonLabel = new K.Text({
-                text: 'More Games',
-                fontSize: 16,
-                fontFamily: 'Calibri',
-                fill: 'white',
-                width: 100,
-                y: 7
-            }).align('center');
+            x: 20,
+            y: 430,
+            width: 100,
+            height: 30
+        }),
+        rect = new K.Rect({
+            width: 100,
+            height: 30,
+            fill: 'green',
+            stroke: 'black',
+            strokeWidth: 1,
+            cornerRadius: 5
+        }),
+        buttonLabel = new K.Text({
+            text: 'More Games',
+            fontSize: 16,
+            fontFamily: 'Calibri',
+            fill: 'white',
+            width: 100,
+            y: 7
+        }).align('center');
 
         button.add(rect);
         button.add(buttonLabel);
@@ -132,27 +136,27 @@
 
     function _createBetButton() {
         var button = new K.Group({
-                x: 260,
-                y: 30,
-                width: 120,
-                height: 30
-            }),
-            rect = new K.Rect({
-                width: 120,
-                height: 30,
-                fill: 'green',
-                stroke: 'black',
-                strokeWidth: 1,
-                cornerRadius: 5
-            }),
-            buttonLabel = new K.Text({
-                text: 'Enter your bet',
-                fontSize: 16,
-                fontFamily: 'Calibri',
-                fill: 'white',
-                width: 120,
-                y: 7
-            }).align('center');
+            x: 260,
+            y: 30,
+            width: 120,
+            height: 30
+        }),
+        rect = new K.Rect({
+            width: 120,
+            height: 30,
+            fill: 'green',
+            stroke: 'black',
+            strokeWidth: 1,
+            cornerRadius: 5
+        }),
+        buttonLabel = new K.Text({
+            text: 'Enter your bet',
+            fontSize: 16,
+            fontFamily: 'Calibri',
+            fill: 'white',
+            width: 120,
+            y: 7
+        }).align('center');
 
         button.add(rect);
         button.add(buttonLabel);
@@ -203,14 +207,14 @@
     }
 
     function initGame(containerId, width, height, SpilAPI) {
-        API           = SpilAPI;
-        game          = _createStage(containerId, width, height);
-        layer         = _createLayer();
-        btn           = _createBetButton();
-        betLabel      = _createBetLabel();
+        API = SpilAPI;
+        game = _createStage(containerId, width, height);
+        layer = _createLayer();
+        btn = _createBetButton();
+        betLabel = _createBetLabel();
         rouletteLabel = _createRouletteLabel();
-        resultLabel   = _createResultLabel();
-        cashLabel     = _createCashLabel();
+        resultLabel = _createResultLabel();
+        cashLabel = _createCashLabel();
 
         function displayGame() {
             btn.on('mouseover', function() {
@@ -376,6 +380,6 @@
         initGame('game-container', 640, 480, api);
     });
 
-    
+
 
 })(Kinetic, GameAPI);
