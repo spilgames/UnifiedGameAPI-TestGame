@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npm install -g grunt-cli bower",
     "postinstall": "./node_modules/bower/bin/bower install"
   },
   "author": "Stephane P. Pericat <stephane.pericat@spilgames.com>",
