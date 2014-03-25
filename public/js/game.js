@@ -3,8 +3,8 @@ var API;
 // API-related methods
 // These methods work for both games
 
-function _triggerMidroll(callbacks) {
-    if (playCount % 2 === 0) {
+function _triggerMidroll(count, callbacks) {
+    if (count % 2 === 0) {
         API.GameBreak.request(callbacks.pause, callbacks.resume);
     }
 }
@@ -287,7 +287,7 @@ if(document.getElementById('game-container-canvas')) {
                                 // update the play count
                                 playCount++;
                                 // This is how you can trigger midrolls every other play
-                                _triggerMidroll({
+                                _triggerMidroll(playCount, {
                                     pause: function() {
                                         console.log('Midroll requested');
                                     },
@@ -392,73 +392,81 @@ if(document.getElementById('game-container-canvas')) {
 
 } else if(document.getElementById('game-container-dom')) {
 
-    // DOM VERSION
-    var cash = 2500,
-        bet = null,
-        betAmount = 50,
-        result = null,
-        playCount = 0,
-        resultField = document.getElementById('result'),
-        msgField = document.getElementById('message'),
-        betLabel = document.getElementById('bet-label'),
-        betField = document.getElementById('bet-label-span'),
-        cashField = document.getElementById('cash-amount'),
-        betBtn = document.getElementById('bet-btn');
+    function initGame(apiInstance) {
+        API = apiInstance;
 
-    betBtn.addEventListener('click', function() {
-        if(cash === 0) {
-            alert('You are out of cash!');
-            return false;
-        } else {
-            msgField.classList.add('hidden');
-            resultField.classList.add('hidden');
-            bet = window.prompt('Enter the number you want to bet on (between 0 and 36):');
-            if(bet) {
-                if(bet > 36) {
-                    window.alert('You can only bet on numbers betwen 0 and 36! You bet on: ' + bet);
-                    return false;
-                }
+        // DOM VERSION
+        var cash = 2500,
+            bet = null,
+            betAmount = 50,
+            result = null,
+            playCount = 0,
+            resultField = document.getElementById('result'),
+            msgField = document.getElementById('message'),
+            betLabel = document.getElementById('bet-label'),
+            betField = document.getElementById('bet-label-span'),
+            cashField = document.getElementById('cash-amount'),
+            betBtn = document.getElementById('bet-btn');
 
-                resultField.classList.remove('hidden');
-
-                var count = 0;
-
-                var getRandomResult = setInterval(function() {
-                    if(count < 20) {
-                        result = Math.round(Math.random() * 36);
-                        resultField.innerHTML = result;
-                        count++;
-                    } else {
-                        clearInterval(getRandomResult);
-
-                        var message = '';
-                        if(result === parseInt(bet)) {
-                            message = 'You won!';
-                            cash += betAmount;
-                        } else {
-                            message = 'You lost :(';
-                            cash -= betAmount;
-                        }
-
-                        msgField.innerHTML = message;
-                        msgField.classList.remove('hidden');
-                        cashField.innerHTML = cash;
-
-                        // update the play count
-                        playCount++;
-                        // This is how you can trigger midrolls every other play
-                        _triggerMidroll({
-                            pause: function() {
-                                console.log('Midroll requested');
-                            },
-                            resume: function() {
-                                console.log('Midroll finished');
-                            }
-                        });
+        betBtn.addEventListener('click', function() {
+            if(cash === 0) {
+                alert('You are out of cash!');
+                return false;
+            } else {
+                msgField.classList.add('hidden');
+                resultField.classList.add('hidden');
+                bet = window.prompt('Enter the number you want to bet on (between 0 and 36):');
+                if(bet) {
+                    if(bet > 36) {
+                        window.alert('You can only bet on numbers betwen 0 and 36! You bet on: ' + bet);
+                        return false;
                     }
-                }, 100);
+
+                    resultField.classList.remove('hidden');
+
+                    var count = 0;
+
+                    var getRandomResult = setInterval(function() {
+                        if(count < 20) {
+                            result = Math.round(Math.random() * 36);
+                            resultField.innerHTML = result;
+                            count++;
+                        } else {
+                            clearInterval(getRandomResult);
+
+                            var message = '';
+                            if(result === parseInt(bet)) {
+                                message = 'You won!';
+                                cash += betAmount;
+                            } else {
+                                message = 'You lost :(';
+                                cash -= betAmount;
+                            }
+
+                            msgField.innerHTML = message;
+                            msgField.classList.remove('hidden');
+                            cashField.innerHTML = cash;
+
+                            // update the play count
+                            playCount++;
+                            // This is how you can trigger midrolls every other play
+                            _triggerMidroll(playCount, {
+                                pause: function() {
+                                    console.log('Midroll requested');
+                                },
+                                resume: function() {
+                                    console.log('Midroll finished');
+                                }
+                            });
+                        }
+                    }, 100);
+                }
             }
-        }
+        });
+    }
+
+    GameAPI.loadAPI(function(instance) {
+        initGame(instance);
     });
 
 } else {
