@@ -406,7 +406,26 @@ if(document.getElementById('game-container-canvas')) {
             betLabel = document.getElementById('bet-label'),
             betField = document.getElementById('bet-label-span'),
             cashField = document.getElementById('cash-amount'),
-            betBtn = document.getElementById('bet-btn');
+            betBtn = document.getElementById('bet-btn'),
+            moreGamesBtn = document.getElementById('more-games-btn'),
+            logo = _getLogo(),
+            moreGames = _getLink('more_games');
+
+        if(logo.image && logo.action) {
+            var logoEl = document.createElement('img')
+                logoCell = document.getElementById('logo-cell');
+
+            logoEl.src = logo.image;
+            logoEl.id = 'spil-logo';
+            logoEl.addEventListener('click', logo.action);
+
+            logoCell.appendChild(logoEl);
+        }
+
+        if(moreGames.action) {
+            moreGamesBtn.addEventListener('click', moreGames.action);
+            moreGamesBtn.classList.remove('hidden');
+        }
 
         betBtn.addEventListener('click', function() {
             if(cash === 0) {

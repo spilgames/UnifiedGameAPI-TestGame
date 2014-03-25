@@ -34,7 +34,7 @@ body {
 }
 
 .content {
-    height: 340px;
+    height: 300px;
     text-align: center;
     vertical-align: top;
 }
@@ -88,3 +88,13 @@ body {
     font-weight: 300;
     margin: 30px 0;
 }
+
+#spil-logo:hover {
+    cursor: pointer;
+}
+
+
+
+
+
+
