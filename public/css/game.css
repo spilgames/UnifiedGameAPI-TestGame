@@ -1,4 +1,114 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: 'Calibri', sans-serif;
+    color: #fff;
 }
+
+.clear {
+    clear: both;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.gone {
+    display: none;
+}
+
+/* DOM Game style */
+
+#splash-screen {
+    width: 640px;
+    height: 480px;
+    background: url('../img/zibbo.gif') top center no-repeat;
+}
+
+#splash-screen:hover {
+    cursor: pointer;
+}
+
+#game-container-dom {
+    width: 600px;
+    height: 440px;
+    padding: 20px;
+    background: url('../img/background.jpg') top left no-repeat;
+}
+
+#game-table {
+    width: 600px;
+    height: 440px;
+}
+
+.nav {
+    height: 50px;
+    line-height: 50px;
+    vertical-align: middle;
+}
+
+.content {
+    height: 300px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.logo-cell {
+    width: 210px;
+}
+
+.cash-cell {
+    width: 210px;
+    text-align: right;
+    font-size: 18px;
+}
+
+#bet-btn,
+#more-games-btn {
+    display: block;
+    width: 120px;
+    height: 30px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    background: green;
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+#more-games-btn {
+    width: 100px;
+    margin: 0;
+}
+
+#bet-btn:hover,
+#more-games-btn:hover {
+    cursor: pointer;
+}
+
+#bet-label {
+    margin: 20px 0;
+}
+
+#result {
+    margin: 20px 0;
+    font-size: 50px;
+}
+
+#message {
+    font-size: 100px;
+    font-weight: 300;
+    margin: 30px 0;
+}
+
+#spil-logo:hover {
+    cursor: pointer;
+}
+
+
+
+
+
+

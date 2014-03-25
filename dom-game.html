@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fake Roulette Game - DOM version</title>
+        <link rel="stylesheet" type="text/css" href="/css/game.css">
+        <script src="//stg.gameplayer.io/api/js/game.js"></script>
+    </head>
+    <body>
+        <div id="splash-screen" class="gone">&nbsp;</div>
+        <div id="game-container-dom" class="gone">
+            <table id="game-table">
+                <tr>
+                    <td class="nav logo-cell" id="logo-cell">&nbsp;</td>
+                    <td class="nav">
+                        <a id="bet-btn">Enter your bet</a>
+                    </td>
+                    <td class="nav cash-cell">Your cash: $<span id="cash-amount">2500</span></td>
+                </tr>
+                <tr>
+                    <td class="content" colspan="3">
+                        <p id="bet-label" class="hidden">You are betting on: <span id="bet-label-span">3</span></a>
+                        <h2 id="result" class="hidden">4</h2>
+                        <h1 id="message" class="hidden">You lost! :(</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nav logo-cell">
+                        <a id="more-games-btn" class="hidden">More Games</a>
+                    </td>
+                    <td class="nav">&nbsp;</td>
+                    <td class="nav cash-cell">&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+        <script src="/js/game.js"></script>
+    </body>
+</html>
