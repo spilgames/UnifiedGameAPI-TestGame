@@ -1,3 +1,5 @@
+// declare a global var at the top of your script
+// that will hold the api instance once loaded
 var API;
 
 // API-related methods
@@ -214,8 +216,7 @@ if(document.getElementById('game-container-canvas')) {
             }).align('right');
         }
 
-        function initGame(containerId, width, height, SpilAPI) {
-            API = SpilAPI;
+        function initGame(containerId, width, height) {
             game = _createStage(containerId, width, height);
             layer = _createLayer();
             btn = _createBetButton();
@@ -382,25 +383,25 @@ if(document.getElementById('game-container-canvas')) {
         }
 
         // Load the API
-        A.loadAPI(function(api) {
+        A.loadAPI(function(instance) {
             // init the game
-            console.log('API loaded in the game', api);
-            initGame('game-container-canvas', 640, 480, api);
+            console.log('API loaded in the game', instance);
+            API = instance;
+            initGame('game-container-canvas', 640, 480);
         });
 
     })(Kinetic, GameAPI);
 
 } else if(document.getElementById('game-container-dom')) {
 
-    function initGame(apiInstance) {
-        API = apiInstance;
-
+    function initGame() {
         // DOM VERSION
         var cash = 2500,
             bet = null,
             betAmount = 50,
             result = null,
             playCount = 0,
+            game = document.getElementById('game-container-dom'),
             resultField = document.getElementById('result'),
             msgField = document.getElementById('message'),
             betLabel = document.getElementById('bet-label'),
@@ -482,10 +483,27 @@ if(document.getElementById('game-container-canvas')) {
                 }
             }
         });
+
+        game.classList.remove('gone');
     }
 
     GameAPI.loadAPI(function(instance) {
-        initGame(instance);
+        console.log('API loaded in the game', instance);
+        API = instance;
+        var splashData = _getSplashScreen();
+
+        if(splashData.show && splashData.action) {
+            var splashScreen = document.getElementById('splash-screen');
+            splashScreen.addEventListener('click', splashData.action);
+            splashScreen.classList.remove('gone');
+
+            window.setTimeout(function() {
+                splashScreen.classList.add('gone');
+                initGame();
+            }, 2000);
+        } else {
+            initGame();
+        }
     });
 
 } else {

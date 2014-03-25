@@ -13,7 +13,21 @@ body {
     visibility: hidden;
 }
 
+.gone {
+    display: none;
+}
+
 /* DOM Game style */
+
+#splash-screen {
+    width: 640px;
+    height: 480px;
+    background: url('../img/zibbo.gif') top center no-repeat;
+}
+
+#splash-screen:hover {
+    cursor: pointer;
+}
 
 #game-container-dom {
     width: 600px;
