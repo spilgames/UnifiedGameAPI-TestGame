@@ -78,12 +78,12 @@ body {
     margin: 20px 0;
 }
 
-#winning-nbr {
+#result {
     margin: 20px 0;
     font-size: 50px;
 }
 
-#result {
+#message {
     font-size: 100px;
     font-weight: 300;
     margin: 30px 0;
