@@ -216,7 +216,7 @@ if(document.getElementById('game-container-canvas')) {
             }).align('right');
         }
 
-        function initGame(containerId, width, height) {
+        function initCanvasGame(containerId, width, height) {
             game = _createStage(containerId, width, height);
             layer = _createLayer();
             btn = _createBetButton();
@@ -387,124 +387,127 @@ if(document.getElementById('game-container-canvas')) {
             // init the game
             console.log('API loaded in the game', instance);
             API = instance;
-            initGame('game-container-canvas', 640, 480);
+            initCanvasGame('game-container-canvas', 640, 480);
         });
 
     })(Kinetic, GameAPI);
 
 } else if(document.getElementById('game-container-dom')) {
 
-    function initGame() {
-        // DOM VERSION
-        var cash = 2500,
-            bet = null,
-            betAmount = 50,
-            result = null,
-            playCount = 0,
-            game = document.getElementById('game-container-dom'),
-            resultField = document.getElementById('result'),
-            msgField = document.getElementById('message'),
-            betLabel = document.getElementById('bet-label'),
-            betField = document.getElementById('bet-label-span'),
-            cashField = document.getElementById('cash-amount'),
-            betBtn = document.getElementById('bet-btn'),
-            moreGamesBtn = document.getElementById('more-games-btn'),
-            logo = _getLogo(),
-            moreGames = _getLink('more_games');
+    //DOM version
+    (function(A) {
+        function initDOMGame() {
+            // DOM VERSION
+            var cash = 2500,
+                bet = null,
+                betAmount = 50,
+                result = null,
+                playCount = 0,
+                game = document.getElementById('game-container-dom'),
+                resultField = document.getElementById('result'),
+                msgField = document.getElementById('message'),
+                betLabel = document.getElementById('bet-label'),
+                betField = document.getElementById('bet-label-span'),
+                cashField = document.getElementById('cash-amount'),
+                betBtn = document.getElementById('bet-btn'),
+                moreGamesBtn = document.getElementById('more-games-btn'),
+                logo = _getLogo(),
+                moreGames = _getLink('more_games');
 
-        if(logo.image && logo.action) {
-            var logoEl = document.createElement('img')
-                logoCell = document.getElementById('logo-cell');
+            if(logo.image && logo.action) {
+                var logoEl = document.createElement('img'),
+                    logoCell = document.getElementById('logo-cell');
 
-            logoEl.src = logo.image;
-            logoEl.id = 'spil-logo';
-            logoEl.addEventListener('click', logo.action);
+                logoEl.src = logo.image;
+                logoEl.id = 'spil-logo';
+                logoEl.addEventListener('click', logo.action);
 
-            logoCell.appendChild(logoEl);
-        }
+                logoCell.appendChild(logoEl);
+            }
 
-        if(moreGames.action) {
-            moreGamesBtn.addEventListener('click', moreGames.action);
-            moreGamesBtn.classList.remove('hidden');
-        }
+            if(moreGames.action) {
+                moreGamesBtn.addEventListener('click', moreGames.action);
+                moreGamesBtn.classList.remove('hidden');
+            }
 
-        betBtn.addEventListener('click', function() {
-            if(cash === 0) {
-                alert('You are out of cash!');
-                return false;
-            } else {
-                msgField.classList.add('hidden');
-                resultField.classList.add('hidden');
-                bet = window.prompt('Enter the number you want to bet on (between 0 and 36):');
-                if(bet) {
-                    if(bet > 36) {
-                        window.alert('You can only bet on numbers betwen 0 and 36! You bet on: ' + bet);
-                        return false;
-                    }
-
-                    resultField.classList.remove('hidden');
-
-                    var count = 0;
-
-                    var getRandomResult = setInterval(function() {
-                        if(count < 20) {
-                            result = Math.round(Math.random() * 36);
-                            resultField.innerHTML = result;
-                            count++;
-                        } else {
-                            clearInterval(getRandomResult);
-
-                            var message = '';
-                            if(result === parseInt(bet)) {
-                                message = 'You won!';
-                                cash += betAmount;
-                            } else {
-                                message = 'You lost :(';
-                                cash -= betAmount;
-                            }
-
-                            msgField.innerHTML = message;
-                            msgField.classList.remove('hidden');
-                            cashField.innerHTML = cash;
-
-                            // update the play count
-                            playCount++;
-                            // This is how you can trigger midrolls every other play
-                            _triggerMidroll(playCount, {
-                                pause: function() {
-                                    console.log('Midroll requested');
-                                },
-                                resume: function() {
-                                    console.log('Midroll finished');
-                                }
-                            });
+            betBtn.addEventListener('click', function() {
+                if(cash === 0) {
+                    alert('You are out of cash!');
+                    return false;
+                } else {
+                    msgField.classList.add('hidden');
+                    resultField.classList.add('hidden');
+                    bet = window.prompt('Enter the number you want to bet on (between 0 and 36):');
+                    if(bet) {
+                        if(bet > 36) {
+                            window.alert('You can only bet on numbers betwen 0 and 36! You bet on: ' + bet);
+                            return false;
                         }
-                    }, 100);
+
+                        resultField.classList.remove('hidden');
+
+                        var count = 0;
+
+                        var getRandomResult = setInterval(function() {
+                            if(count < 20) {
+                                result = Math.round(Math.random() * 36);
+                                resultField.innerHTML = result;
+                                count++;
+                            } else {
+                                clearInterval(getRandomResult);
+
+                                var message = '';
+                                if(result === parseInt(bet)) {
+                                    message = 'You won!';
+                                    cash += betAmount;
+                                } else {
+                                    message = 'You lost :(';
+                                    cash -= betAmount;
+                                }
+
+                                msgField.innerHTML = message;
+                                msgField.classList.remove('hidden');
+                                cashField.innerHTML = cash;
+
+                                // update the play count
+                                playCount++;
+                                // This is how you can trigger midrolls every other play
+                                _triggerMidroll(playCount, {
+                                    pause: function() {
+                                        console.log('Midroll requested');
+                                    },
+                                    resume: function() {
+                                        console.log('Midroll finished');
+                                    }
+                                });
+                            }
+                        }, 100);
+                    }
                 }
+            });
+
+            game.classList.remove('gone');
+        }
+
+        A.loadAPI(function(instance) {
+            console.log('API loaded in the game', instance);
+            API = instance;
+            var splashData = _getSplashScreen();
+
+            if(splashData.show && splashData.action) {
+                var splashScreen = document.getElementById('splash-screen');
+                splashScreen.addEventListener('click', splashData.action);
+                splashScreen.classList.remove('gone');
+
+                window.setTimeout(function() {
+                    splashScreen.classList.add('gone');
+                    initDOMGame();
+                }, 2000);
+            } else {
+                initDOMGame();
             }
         });
-
-        game.classList.remove('gone');
-    }
-
-    GameAPI.loadAPI(function(instance) {
-        console.log('API loaded in the game', instance);
-        API = instance;
-        var splashData = _getSplashScreen();
-
-        if(splashData.show && splashData.action) {
-            var splashScreen = document.getElementById('splash-screen');
-            splashScreen.addEventListener('click', splashData.action);
-            splashScreen.classList.remove('gone');
-
-            window.setTimeout(function() {
-                splashScreen.classList.add('gone');
-                initGame();
-            }, 2000);
-        } else {
-            initGame();
-        }
-    });
+    })(GameAPI);
 
 } else {
     throw new Error('No game found');
