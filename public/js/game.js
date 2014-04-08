@@ -388,6 +388,15 @@ if(document.getElementById('game-container-canvas')) {
             console.log('API loaded in the game', instance);
             API = instance;
             initCanvasGame('game-container-canvas', 640, 480);
+
+            // NEW! listen to pause and resume events from the API
+            API.Game.on('pause', function() {
+                alert('The API requested that I put myself on pause!');
+            });
+
+            API.Game.on('resume', function() {
+                alert('The API requested that I resume myself now!');
+            });
         });
 
     })(Kinetic, GameAPI);
@@ -506,6 +515,15 @@ if(document.getElementById('game-container-canvas')) {
             } else {
                 initDOMGame();
             }
+
+            // NEW! listen to pause and resume events from the API
+            API.Game.on('pause', function() {
+                alert('The API requested that I put myself on pause!');
+            });
+
+            API.Game.on('resume', function() {
+                alert('The API requested that I resume myself now!');
+            });
         });
     })(GameAPI);
 
