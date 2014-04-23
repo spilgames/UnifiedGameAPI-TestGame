@@ -401,7 +401,7 @@ if(document.getElementById('game-container-canvas')) {
 
     })(Kinetic, GameAPI);
 
-} else if(document.getElementById('game-container-dom')) {
+} else if(document.getElementById('game-container-dom') || document.getElementById('game-container-mobile')) {
 
     //DOM version
     (function(A) {
@@ -412,7 +412,7 @@ if(document.getElementById('game-container-canvas')) {
                 betAmount = 50,
                 result = null,
                 playCount = 0,
-                game = document.getElementById('game-container-dom'),
+                game = document.getElementById('game-container-dom') || document.getElementById('game-container-mobile'),
                 resultField = document.getElementById('result'),
                 msgField = document.getElementById('message'),
                 betLabel = document.getElementById('bet-label'),
