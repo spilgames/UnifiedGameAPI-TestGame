@@ -29,7 +29,8 @@ body {
     cursor: pointer;
 }
 
-#game-container-dom {
+#game-container-dom,
+#game-container-mobile {
     width: 600px;
     height: 440px;
     padding: 20px;
@@ -107,8 +108,100 @@ body {
     cursor: pointer;
 }
 
+/* MOBILE */
 
+#splash-screen.mobile {
+    width: 320px;
+    height: 480px;
+    background: url('../img/splash-mobile.png') top center no-repeat;
+}
 
+#game-container-mobile {
+    width: 300px;
+    height: 460px;
+    overflow: hidden;
+    padding: 10px;
+}
 
+#game-container-mobile #game-table {
+    width: 300px;
+    height: 460px;
+}
 
+#game-container-mobile .nav {
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    line-height: 20px;
+}
+
+#game-container-mobile .content {
+    width: 0;
+    height: 284px;
+    margin: 0;
+    padding: 0;
+}
+
+#game-container-mobile .logo-cell {
+    width: 101px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+
+#game-container-mobile .logo-cell img {
+    width: 101px;
+    height: 25px;
+}
+
+#game-container-mobile .cash-cell {
+    width: 189px;
+    padding-right: 10px;
+    padding-top: 5px;
+    height: 15px;
+    margin: 0;
+    vertical-align: top;
+    text-align: right;
+    font-size: 16px;
+}
+
+#game-container-mobile .bet-cell {
+    vertical-align: middle;
+    height: 100px;
+}
+
+#game-container-mobile #bet-btn,
+#game-container-mobile #more-games-btn {
+    font-size: 14px;
+    height: 25px;
+    line-height: 25px;
+}
+
+#game-container-mobile #bet-label {
+    width: 100%;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    display: block;
+    margin-bottom: 30px;
+}
+
+#game-container-mobile #result {
+    width: 100%;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 30px;
+    font-size: 60px;
+}
+
+#game-container-mobile #message {
+    width: 100%;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    font-size: 50px;
+}
 

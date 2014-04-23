@@ -11,5 +11,9 @@ app.get('/dom', function(req, res) {
     res.sendfile( __dirname + '/dom-game.html');
 });
 
+app.get('/mobile', function(req, res) {
+    res.sendfile( __dirname + '/mobile-game.html');
+});
+
 app.listen(process.env.VMC_APP_PORT || 8282, null);
 console.log('Local Fake game running on http://localhost:8282/');
