@@ -2,6 +2,19 @@
 // that will hold the api instance once loaded
 var API;
 
+/**
+ * This is an example of the spil data object
+ * that you can pass to the loadAPI method
+ * to run your game in `standalone mode`
+ * with proper branding
+ */
+
+var SpilData = {
+    site: '500',
+    channel: '100',
+    id: '576742227280291016'
+};
+
 // API-related methods
 // These methods work for both games
 
@@ -397,7 +410,7 @@ if(document.getElementById('game-container-canvas')) {
             API.Game.on('resume', function() {
                 alert('The API requested that I resume myself now!');
             });
-        });
+        }, SpilData); // we pass the SpilData object as second argument
 
     })(Kinetic, GameAPI);
 
@@ -524,7 +537,7 @@ if(document.getElementById('game-container-canvas')) {
             API.Game.on('resume', function() {
                 alert('The API requested that I resume myself now!');
             });
-        });
+        }, SpilData); // we pass the SpilData object as second argument
     })(GameAPI);
 
 } else {
