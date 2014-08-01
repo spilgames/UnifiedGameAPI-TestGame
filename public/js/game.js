@@ -44,6 +44,10 @@ function _submitScore(score) {
     return API.Score.submit(score);
 }
 
+function _sendEvent(evt) {
+    return API.Game.event(evt);
+}
+
 /* Technology-specific implementation */
 
 if(document.getElementById('game-container-canvas')) {
@@ -407,6 +411,7 @@ if(document.getElementById('game-container-canvas')) {
             // init the game
             console.log('API loaded in the game', instance);
             API = instance;
+            _sendEvent('GAME_START');
             initCanvasGame('game-container-canvas', 640, 480);
 
             // NEW! listen to pause and resume events from the API
@@ -521,6 +526,7 @@ if(document.getElementById('game-container-canvas')) {
         A.loadAPI(function(instance) {
             console.log('API loaded in the game', instance);
             API = instance;
+            _sendEvent('GAME_START');
             var splashData = _getSplashScreen();
 
             if(splashData.show && splashData.action) {
