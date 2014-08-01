@@ -297,7 +297,6 @@ if(document.getElementById('game-container-canvas')) {
                                 }
 
                                 _submitScore(cash);
-                                _submitScore();
 
                                 resultLabel.setText(message);
                                 resultLabel.align('center');
