@@ -40,6 +40,10 @@ function _getSplashScreen() {
     return API.Branding.getSplashScreen();
 }
 
+function _submitScore(score) {
+    return API.Score.submit(score);
+}
+
 /* Technology-specific implementation */
 
 if(document.getElementById('game-container-canvas')) {
@@ -286,11 +290,14 @@ if(document.getElementById('game-container-canvas')) {
                                 var message = '';
                                 if(result === parseInt(bet)) {
                                     message = 'You won!';
-                                    cash += betAmount;
+                                    cash += betAmount;  
                                 } else {
                                     message = 'You lost :(';
                                     cash -= betAmount;
                                 }
+
+                                _submitScore(cash);
+                                _submitScore();
 
                                 resultLabel.setText(message);
                                 resultLabel.align('center');
@@ -380,7 +387,7 @@ if(document.getElementById('game-container-canvas')) {
             var splashData = _getSplashScreen();
 
             // if the spalsh screen is enabled, show the splash screen for two seconds
-            if(splashData.show) {
+            /*if(splashData.show) {
                 _createSplashScreen(splashData, function(splash) {
                     game.add(splash);
                     window.setTimeout(function() {
@@ -391,8 +398,9 @@ if(document.getElementById('game-container-canvas')) {
             } else {
                 // else , display the game directly
                 displayGame();
-            }
+            }*/
             
+            GameAPI.Branding.displaySplashScreen(displayGame);
         }
 
         // Load the API
