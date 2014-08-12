@@ -45,7 +45,7 @@ function _submitScore(score) {
 }
 
 function _sendEvent(evt) {
-    return API.Game.event(evt);
+    return API.GameEvent.emit(evt);
 }
 
 /* Technology-specific implementation */
@@ -411,7 +411,7 @@ if(document.getElementById('game-container-canvas')) {
             // init the game
             console.log('API loaded in the game', instance);
             API = instance;
-            _sendEvent('GAME_START');
+            _sendEvent(API.GameEvent.events.GAME_START);
             initCanvasGame('game-container-canvas', 640, 480);
 
             // NEW! listen to pause and resume events from the API
