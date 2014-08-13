@@ -294,13 +294,14 @@ if(document.getElementById('game-container-canvas')) {
                                 var message = '';
                                 if(result === parseInt(bet)) {
                                     message = 'You won!';
-                                    cash += betAmount;  
+                                    cash += betAmount; 
                                 } else {
                                     message = 'You lost :(';
                                     cash -= betAmount;
                                 }
 
                                 _submitScore(cash);
+                                _sendEvent(API.GameEvent.events.GAME_END);
 
                                 resultLabel.setText(message);
                                 resultLabel.align('center');
